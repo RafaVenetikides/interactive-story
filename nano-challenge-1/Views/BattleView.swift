@@ -24,8 +24,16 @@ final class BattleView: UIView {
         return label
     }()
     
+    private var enemyShieldLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemBlue
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var enemyStackInfo: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [enemyNameLabel, enemyHealthLabel])
+        let stackView = UIStackView(arrangedSubviews: [enemyNameLabel, enemyHealthLabel, enemyShieldLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +64,7 @@ final class BattleView: UIView {
     }()
     
     private lazy var playerStackInfo: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [playerNameLabel, playerHealthLabel])
+        let stackView = UIStackView(arrangedSubviews: [playerNameLabel, playerHealthLabel, playerShieldLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -95,6 +103,7 @@ final class BattleView: UIView {
     }
     
     private func setupLayout() {
+        backgroundColor = .white
         addSubview(enemyStackInfo)
         addSubview(playerStackInfo)
         addSubview(buttonsStackView)
@@ -114,9 +123,11 @@ final class BattleView: UIView {
     func configure(enemyName: String, enemyHealth: Int, playerName: String, playerHealth: Int, onAttack: @escaping () -> Void, onDefense: @escaping () -> Void) {
         enemyNameLabel.text = enemyName
         enemyHealthLabel.text = "\(enemyHealth)"
+        enemyShieldLabel.text = "0"
         
         playerNameLabel.text = playerName
         playerHealthLabel.text = "\(playerHealth)"
+        playerShieldLabel.text = "0"
         
         setActionsHandlers(onAttack: onAttack, onDefense: onDefense)
     }
@@ -124,8 +135,17 @@ final class BattleView: UIView {
     func updatePlayerHealth(_ health: Int) {
         playerHealthLabel.text = "\(health)"
     }
+    
+    func updatePlayerShield(_ shield: Int) {
+        playerShieldLabel.text = "\(shield)"
+    }
+    
     func updateEnemyHealth(_ health: Int) {
         enemyHealthLabel.text = "\(health)"
+    }
+    
+    func updateEnemyShield(_ shield: Int) {
+        enemyShieldLabel.text = "\(shield)"
     }
     
     func setActionsHandlers(onAttack: @escaping () -> Void, onDefense: @escaping () -> Void) {

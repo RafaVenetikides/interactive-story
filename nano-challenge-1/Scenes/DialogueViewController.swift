@@ -9,8 +9,19 @@ import UIKit
 
 class DialogueViewController: UIViewController {
     private let dialogView = DialogueView()
+    private var nextDialogueId: String?
+    private var startNodeId: String = "start"
     
     private var manager: DialogueManager!
+    
+    init(startNodeId: String = "start") {
+        super.init(nibName: nil, bundle: nil)
+        self.startNodeId = startNodeId
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         self.view = dialogView
@@ -18,6 +29,7 @@ class DialogueViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.hidesBackButton = true
         setupDialogue()
         renderCurrentNode()
     }
@@ -70,7 +82,7 @@ class DialogueViewController: UIViewController {
             )
         ]
         
-        manager = DialogueManager(startNodeId: "start", nodes: nodes)
+        manager = DialogueManager(startNodeId: startNodeId, nodes: nodes)
     }
     
     private func renderCurrentNode() {
@@ -83,7 +95,21 @@ class DialogueViewController: UIViewController {
     }
     
     private func handleOption(_ option: DialogueOption) {
-        manager.selectOption(option)
+        guard let nextNodeId = option.nextNodeId else { return }
+        
+        nextDialogueId = nextNodeId
+        
+        let battleVC = BattleViewController()
+        battleVC.onBattleFinished = { [weak self] in
+            self?.continueDialogueAfterBattle()
+            self?.navigationController?.popViewController(animated: false)
+        }
+        navigationController?.pushViewController(battleVC, animated: false)
+    }
+    
+    private func continueDialogueAfterBattle() {
+        guard let nextId = nextDialogueId else { return }
+        manager.goToNode(nextId)
         renderCurrentNode()
     }
 }

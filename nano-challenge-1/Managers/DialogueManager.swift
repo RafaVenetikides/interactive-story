@@ -25,4 +25,8 @@ class DialogueManager {
             currentNodeId = nextId
         }
     }
+    
+    func goToNode(_ nodeId: String) {
+        currentNodeId = nodeId
+    }
 }
