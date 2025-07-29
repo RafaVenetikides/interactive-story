@@ -29,20 +29,43 @@ class DialogueViewController: UIViewController {
                 characterName: "character 1",
                 text: "super dialogo",
                 options: [
-                    DialogueOption(text: "resposta 1", nextNodeId: "resposta 1"),
-                    DialogueOption(text: "resposta 2", nextNodeId: "resposta 2")
+                    DialogueOption(text: "resposta 1", nextNodeId: "resposta1"),
+                    DialogueOption(text: "resposta 2", nextNodeId: "resposta2")
                 ]
             ),
-            "resposta 1": DialogueNode(
-                id: "resposta 1",
+            "resposta1": DialogueNode(
+                id: "resposta1",
                 characterName: "character 2",
                 text: "super dialogo 2",
-                options: []
+                options: [
+                    DialogueOption(text: "Final 1", nextNodeId: "final1"),
+                    DialogueOption(text: "resposta 3", nextNodeId: "resposta3")]
             ),
-            "resposta 2": DialogueNode(
-                id: "resposta 2",
+            "resposta2": DialogueNode(
+                id: "resposta2",
                 characterName: "character 3",
                 text: "super dialogo 3",
+                options: [
+                    DialogueOption(text: "resposta 3", nextNodeId: "resposta3"),
+                    DialogueOption(text: "resposta 4", nextNodeId: "resposta4")
+                ]
+            ),
+            "resposta3": DialogueNode(
+                id: "resposta3",
+                characterName: "character 4",
+                text: "super dialogo 4",
+                options: []
+            ),
+            "resposta4": DialogueNode(
+                id: "resposta4",
+                characterName: "character 5",
+                text: "dialogo 5",
+                options: []
+            ),
+            "final1": DialogueNode(
+                id: "final1",
+                characterName: "character 5",
+                text: "dialogo final",
                 options: []
             )
         ]
