@@ -1,0 +1,84 @@
+# Xcode
+build/
+DerivedData/
+*.xcworkspace
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+*.xcuserdatad
+*.xcscmblueprint
+*.xcshareddata
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Packages/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/
+Carthage/Build/
+
+# Accio dependency manager
+Dependencies/
+.accio/
+
+# Swift binaries
+*.o
+*.dSYM/
+*.dSYM.zip
+
+# Xcode playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+*.ipa
+*.app
+
+# Firebase
+GoogleService-Info.plist
+
+# Archives
+*.xcarchive
+
+# Personal Xcode settings (can be useful to ignore in teams)
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+
+# IDEs
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Spotlight
+.metadata_never_index
+
+# Temporary files
+*.swp
+*~.nib
+*.orig
+*.rej
+*.bak
+*.tmp
+
+# Other
+*.log
+*.orig
+*.mode1
+*.mode2
+*.pbxuser
+
+# SwiftUI previews
+Preview Content/
