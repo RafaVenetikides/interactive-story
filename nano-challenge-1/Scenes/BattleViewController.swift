@@ -24,7 +24,12 @@ class BattleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        battleView.configure(enemyName: enemy.name, enemyHealth: enemy.health, playerName: player.name, playerHealth: player.health, onAttack: handleAttack, onDefense: handleDefend)
+        battleView.configure(
+            enemy: enemy,
+            player: player,
+            onAttack: handleAttack,
+            onDefense: handleDefend
+        )
     }
     
     private func updateUI() {

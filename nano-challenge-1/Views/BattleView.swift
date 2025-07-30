@@ -120,14 +120,14 @@ final class BattleView: UIView {
         ])
     }
     
-    func configure(enemyName: String, enemyHealth: Int, playerName: String, playerHealth: Int, onAttack: @escaping () -> Void, onDefense: @escaping () -> Void) {
-        enemyNameLabel.text = enemyName
-        enemyHealthLabel.text = "\(enemyHealth)"
-        enemyShieldLabel.text = "0"
+    func configure(enemy: Character, player: Character, onAttack: @escaping () -> Void, onDefense: @escaping () -> Void) {
+        enemyNameLabel.text = enemy.name
+        enemyHealthLabel.text = "\(enemy.health)"
+        enemyShieldLabel.text = "\(enemy.shield)"
         
-        playerNameLabel.text = playerName
-        playerHealthLabel.text = "\(playerHealth)"
-        playerShieldLabel.text = "0"
+        playerNameLabel.text = player.name
+        playerHealthLabel.text = "\(player.health)"
+        playerShieldLabel.text = "\(player.shield)"
         
         setActionsHandlers(onAttack: onAttack, onDefense: onDefense)
     }
