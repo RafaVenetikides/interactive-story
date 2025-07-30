@@ -13,15 +13,9 @@ class BattleViewController: UIViewController {
     
     var onBattleFinished: (() -> Void)?
     
-    private var playerName: String = "Player"
-    private var playerHealth = 100
-    private var playerShield = 0
-    private var playerAttackPower = 10
+    private var player = Character(name: "Player", health: 100, shield: 0, attackPower: 10)
     
-    private var enemyName: String = "Enemy"
-    private var enemyHealth = 10
-    private var enemyShield = 0
-    private var enemyAttackPower = 5
+    private var enemy = Character(name: "Enemy", health: 10, shield: 0, attackPower: 5)
     
     override func loadView() {
         navigationItem.hidesBackButton = true
@@ -30,33 +24,25 @@ class BattleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        battleView.configure(enemyName: enemyName, enemyHealth: enemyHealth, playerName: playerName, playerHealth: playerHealth, onAttack: handleAttack, onDefense: handleDefend)
+        battleView.configure(enemyName: enemy.name, enemyHealth: enemy.health, playerName: player.name, playerHealth: player.health, onAttack: handleAttack, onDefense: handleDefend)
     }
     
     private func updateUI() {
-        battleView.updatePlayerHealth(playerHealth)
-        battleView.updatePlayerShield(playerShield)
+        battleView.updatePlayerHealth(player.health)
+        battleView.updatePlayerShield(player.shield)
 
-        battleView.updateEnemyHealth(enemyHealth)
-        battleView.updateEnemyShield(enemyShield)
+        battleView.updateEnemyHealth(enemy.health)
+        battleView.updateEnemyShield(enemy.shield)
     }
     
     private func handleAttack() {
-        enemyHealth -= playerAttackPower
+        enemy.health -= player.attackPower
         updateUI()
-        
-        if enemyHealth <= 0 {
-            goToDialogue()
-            return
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.takeEnemyTurn()
-        }
+        checkBattleState()
     }
     
     private func handleDefend() {
-        playerShield += 10
+        player.shield += 10
         updateUI()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -65,13 +51,23 @@ class BattleViewController: UIViewController {
     }
     
     private func takeEnemyTurn() {
-        let damageTaken = max(0, enemyAttackPower - playerShield)
-        playerHealth -= damageTaken
-        playerShield = 0
+        let damageTaken = max(0, enemy.attackPower - player.shield)
+        player.health -= damageTaken
+        player.shield = 0
         updateUI()
         
-        if playerHealth <= 0 {
+        if player.health <= 0 {
             showGameOver()
+        }
+    }
+    
+    private func checkBattleState() {
+        if enemy.health <= 0 {
+            goToDialogue()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.takeEnemyTurn()
+            }
         }
     }
     
