@@ -88,6 +88,7 @@ final class BattleView: UIView {
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [attackButton, defenseButton])
         stackView.axis = .horizontal
+        stackView.spacing = 20
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -112,10 +113,10 @@ final class BattleView: UIView {
             enemyStackInfo.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
             enemyStackInfo.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            playerStackInfo.topAnchor.constraint(equalTo: enemyStackInfo.bottomAnchor, constant: 20),
+            playerStackInfo.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -20),
             playerStackInfo.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            buttonsStackView.topAnchor.constraint(equalTo: playerStackInfo.bottomAnchor, constant: 20),
+            buttonsStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
             buttonsStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }

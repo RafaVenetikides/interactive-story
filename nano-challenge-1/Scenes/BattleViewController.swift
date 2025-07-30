@@ -11,11 +11,12 @@ class BattleViewController: UIViewController {
     
     private let battleView = BattleView()
     
-    var onBattleFinished: (() -> Void)?
-    
     private var player = Character(name: "Player", health: 100, shield: 0, attackPower: 10)
     
     private var enemy = Character(name: "Enemy", health: 10, shield: 0, attackPower: 5)
+    
+    var onBattleFinished: (() -> Void)?
+    private var isPlayerTurn = true
     
     override func loadView() {
         navigationItem.hidesBackButton = true
@@ -24,6 +25,7 @@ class BattleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        isPlayerTurn = true
         battleView.configure(
             enemy: enemy,
             player: player,
@@ -41,14 +43,19 @@ class BattleViewController: UIViewController {
     }
     
     private func handleAttack() {
+        guard isPlayerTurn else { return }
         enemy.health -= player.attackPower
         updateUI()
+        isPlayerTurn = false
+        
         checkBattleState()
     }
     
     private func handleDefend() {
+        guard isPlayerTurn else { return }
         player.shield += 10
         updateUI()
+        isPlayerTurn = false
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.takeEnemyTurn()
@@ -59,6 +66,7 @@ class BattleViewController: UIViewController {
         let damageTaken = max(0, enemy.attackPower - player.shield)
         player.health -= damageTaken
         player.shield = 0
+        isPlayerTurn = true
         updateUI()
         
         if player.health <= 0 {
