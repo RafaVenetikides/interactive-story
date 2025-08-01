@@ -9,6 +9,14 @@ import UIKit
 
 final class BattleView: UIView {
     
+    private var enemyShieldImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(named: "shield")
+        return image
+    }()
+    
     private var enemyNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "ComicNeue-Bold", size: 27)
@@ -18,10 +26,19 @@ final class BattleView: UIView {
     
     private var enemyHealthBar: UIProgressView = {
         let progressView = UIProgressView()
-        progressView.trackTintColor = .gray
-        progressView.progressTintColor = .red
+        progressView.trackTintColor = .trackGray
+        progressView.progressTintColor = .progressRed
         progressView.translatesAutoresizingMaskIntoConstraints = false
         return progressView
+    }()
+    
+    private var enemyHealthStroke: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.cornerRadius = 3
+        return view
     }()
     
     private var enemyHealthLabel: UILabel = {
@@ -32,12 +49,42 @@ final class BattleView: UIView {
         return label
     }()
     
+    private var enemyHealthField: UIView = {
+        let view = UIView()
+        view.backgroundColor = .fieldBackground
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        return view
+    }()
+    
     private var enemyShieldLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemBlue
+        label.textColor = .black
         label.font = UIFont(name: "ComicNeue-Bold", size: 23)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var enemyShieldStack: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [enemyShieldImage, enemyShieldLabel])
+        sv.axis = .horizontal
+        sv.distribution = .fill
+        sv.spacing = 3
+        sv.alignment = .center
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
+    
+    private var enemyShieldField: UIView = {
+        let view = UIView()
+        view.backgroundColor = .fieldBackground
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        return view
     }()
     
     private var enemyImage: UIImageView = {
@@ -48,9 +95,10 @@ final class BattleView: UIView {
     }()
     
     private lazy var enemyStackInfo: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [enemyImage, enemyNameLabel, enemyHealthBar, enemyShieldLabel])
+        let stackView = UIStackView(arrangedSubviews: [enemyImage, enemyNameLabel, enemyHealthField, enemyShieldField])
         stackView.axis = .vertical
         stackView.distribution = .fill
+        stackView.spacing = 10
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -63,10 +111,18 @@ final class BattleView: UIView {
 //        return label
 //    }()
     
+    private var playerShieldImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(named: "shield")
+        return image
+    }()
+    
     private var playerHealthBar: UIProgressView = {
         let progressView = UIProgressView()
-        progressView.trackTintColor = .gray
-        progressView.progressTintColor = .red
+        progressView.trackTintColor = .trackGray
+        progressView.progressTintColor = .progressRed
         progressView.translatesAutoresizingMaskIntoConstraints = false
         return progressView
     }()
@@ -79,19 +135,59 @@ final class BattleView: UIView {
         return label
     }()
     
+    private var playerHealthStroke: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var playerHealthField: UIView = {
+        let view = UIView()
+        view.backgroundColor = .fieldBackground
+        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private var playerShieldLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .blue
+        label.textColor = .black
         label.font = UIFont(name: "ComicNeue-Bold", size: 25)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    private lazy var playerShieldStack: UIStackView = {
+       let sv = UIStackView(arrangedSubviews: [playerShieldImage, playerShieldLabel])
+        sv.axis = .horizontal
+        sv.distribution = .fill
+        sv.spacing = 3
+        sv.alignment = .center
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
+    
+    private var playerShieldField: UIView = {
+        var view = UIView()
+        view.backgroundColor = .fieldBackground
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        return view
+    }()
+    
     private lazy var playerStackInfo: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [playerShieldLabel, playerHealthBar])
+        let stackView = UIStackView(arrangedSubviews: [playerShieldField, playerHealthField])
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -136,15 +232,40 @@ final class BattleView: UIView {
         addSubview(buttonsStackView)
         
         enemyHealthBar.addSubview(enemyHealthLabel)
+        enemyHealthStroke.addSubview(enemyHealthBar)
+        enemyHealthField.addSubview(enemyHealthStroke)
+        
+        enemyShieldField.addSubview(enemyShieldStack)
+        
         playerHealthBar.addSubview(playerHealthLabel)
+        playerHealthStroke.addSubview(playerHealthBar)
+        playerHealthField.addSubview(playerHealthStroke)
+        
+        playerShieldField.addSubview(playerShieldStack)
         
         NSLayoutConstraint.activate([
             enemyStackInfo.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             enemyStackInfo.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
             enemyHealthLabel.centerYAnchor.constraint(equalTo: enemyHealthBar.centerYAnchor),
             enemyHealthLabel.centerXAnchor.constraint(equalTo: enemyHealthBar.centerXAnchor),
             enemyHealthBar.heightAnchor.constraint(equalToConstant: 25),
             enemyHealthBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.55),
+            enemyHealthStroke.widthAnchor.constraint(equalTo: enemyHealthBar.widthAnchor),
+            enemyHealthStroke.heightAnchor.constraint(equalTo: enemyHealthBar.heightAnchor),
+            enemyHealthStroke.centerXAnchor.constraint(equalTo: enemyHealthBar.centerXAnchor),
+            enemyHealthStroke.centerYAnchor.constraint(equalTo: enemyHealthBar.centerYAnchor),
+            
+            enemyHealthBar.centerXAnchor.constraint(equalTo: enemyHealthField.centerXAnchor),
+            enemyHealthBar.centerYAnchor.constraint(equalTo: enemyHealthField.centerYAnchor),
+            enemyHealthField.heightAnchor.constraint(equalTo: enemyHealthBar.heightAnchor, multiplier: 1.6),
+            enemyHealthField.widthAnchor.constraint(equalTo: enemyHealthBar.widthAnchor, multiplier: 1.15),
+            
+            enemyShieldField.heightAnchor.constraint(equalToConstant: 35),
+            enemyShieldField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
+            enemyShieldStack.centerXAnchor.constraint(equalTo: enemyShieldField.centerXAnchor),
+            enemyShieldStack.centerYAnchor.constraint(equalTo: enemyShieldField.centerYAnchor),
+            enemyShieldStack.heightAnchor.constraint(equalTo: enemyShieldField.heightAnchor, multiplier: 0.75),
             
             playerStackInfo.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -20),
             playerStackInfo.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -152,6 +273,22 @@ final class BattleView: UIView {
             playerHealthLabel.centerXAnchor.constraint(equalTo: playerHealthBar.centerXAnchor),
             playerHealthBar.heightAnchor.constraint(equalToConstant: 35),
             playerHealthBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
+            
+            playerHealthStroke.widthAnchor.constraint(equalTo: playerHealthBar.widthAnchor),
+            playerHealthStroke.heightAnchor.constraint(equalTo: playerHealthBar.heightAnchor),
+            playerHealthStroke.centerXAnchor.constraint(equalTo: playerHealthBar.centerXAnchor),
+            playerHealthStroke.centerYAnchor.constraint(equalTo: playerHealthBar.centerYAnchor),
+            
+            playerHealthBar.centerXAnchor.constraint(equalTo: playerHealthField.centerXAnchor),
+            playerHealthBar.centerYAnchor.constraint(equalTo: playerHealthField.centerYAnchor),
+            playerHealthField.heightAnchor.constraint(equalTo: playerHealthBar.heightAnchor, multiplier: 1.6),
+            playerHealthField.widthAnchor.constraint(equalTo: playerHealthBar.widthAnchor, multiplier: 1.1),
+            
+            playerShieldField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.23),
+            playerShieldField.heightAnchor.constraint(equalToConstant: 40),
+            playerShieldStack.centerXAnchor.constraint(equalTo: playerShieldField.centerXAnchor),
+            playerShieldStack.centerYAnchor.constraint(equalTo: playerShieldField.centerYAnchor),
+            playerShieldStack.heightAnchor.constraint(equalTo: playerShieldField.heightAnchor, multiplier: 0.8),
             
             buttonsStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
             buttonsStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
