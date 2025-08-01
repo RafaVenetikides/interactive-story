@@ -193,15 +193,29 @@ final class BattleView: UIView {
     }()
     
     private var attackButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Attack", for: .normal)
+        var buttonConfig = UIButton.Configuration.filled()
+        buttonConfig.image = UIImage(named: "sword")
+        buttonConfig.baseBackgroundColor = .fieldBackground
+        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 25, leading: 50, bottom: 25, trailing: 50)
+        buttonConfig.background.strokeColor = UIColor.black
+        buttonConfig.background.strokeWidth = 1
+        buttonConfig.background.cornerRadius = 5
+        
+        let button = UIButton(configuration: buttonConfig)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private var defenseButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Defense", for: .normal)
+        var buttonConfig = UIButton.Configuration.filled()
+        buttonConfig.image = UIImage(named: "shield")
+        buttonConfig.baseBackgroundColor = .fieldBackground
+        buttonConfig.contentInsets = NSDirectionalEdgeInsets(top: 25, leading: 50, bottom: 25, trailing: 50)
+        buttonConfig.background.strokeColor = UIColor.black
+        buttonConfig.background.strokeWidth = 1
+        buttonConfig.background.cornerRadius = 5
+        
+        let button = UIButton(configuration: buttonConfig)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
