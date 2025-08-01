@@ -11,15 +11,23 @@ final class BattleView: UIView {
     
     private var enemyNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont(name: "ComicNeue-Bold", size: 27)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    private var enemyHealthBar: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.trackTintColor = .gray
+        progressView.progressTintColor = .red
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        return progressView
+    }()
+    
     private var enemyHealthLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .red
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.textColor = .black
+        label.font = UIFont(name: "ComicNeue-Bold", size: 23)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,30 +35,46 @@ final class BattleView: UIView {
     private var enemyShieldLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemBlue
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont(name: "ComicNeue-Bold", size: 23)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    private var enemyImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
     private lazy var enemyStackInfo: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [enemyNameLabel, enemyHealthLabel, enemyShieldLabel])
+        let stackView = UIStackView(arrangedSubviews: [enemyImage, enemyNameLabel, enemyHealthBar, enemyShieldLabel])
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
+        stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private var playerNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+//    private var playerNameLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFont(name: "ComicNeue-Bold", size: 27)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
+    
+    private var playerHealthBar: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.trackTintColor = .gray
+        progressView.progressTintColor = .red
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        return progressView
     }()
     
     private var playerHealthLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .green
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.textColor = .black
+        label.font = UIFont(name: "ComicNeue-Bold", size: 27)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -58,15 +82,16 @@ final class BattleView: UIView {
     private var playerShieldLabel: UILabel = {
         let label = UILabel()
         label.textColor = .blue
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont(name: "ComicNeue-Bold", size: 25)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var playerStackInfo: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [playerNameLabel, playerHealthLabel, playerShieldLabel])
+        let stackView = UIStackView(arrangedSubviews: [playerShieldLabel, playerHealthBar])
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
+        stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -97,6 +122,7 @@ final class BattleView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
+        backgroundColor = .background
     }
     
     required init?(coder: NSCoder) {
@@ -109,12 +135,23 @@ final class BattleView: UIView {
         addSubview(playerStackInfo)
         addSubview(buttonsStackView)
         
+        enemyHealthBar.addSubview(enemyHealthLabel)
+        playerHealthBar.addSubview(playerHealthLabel)
+        
         NSLayoutConstraint.activate([
-            enemyStackInfo.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            enemyStackInfo.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             enemyStackInfo.centerXAnchor.constraint(equalTo: centerXAnchor),
+            enemyHealthLabel.centerYAnchor.constraint(equalTo: enemyHealthBar.centerYAnchor),
+            enemyHealthLabel.centerXAnchor.constraint(equalTo: enemyHealthBar.centerXAnchor),
+            enemyHealthBar.heightAnchor.constraint(equalToConstant: 25),
+            enemyHealthBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.55),
             
             playerStackInfo.bottomAnchor.constraint(equalTo: buttonsStackView.topAnchor, constant: -20),
             playerStackInfo.centerXAnchor.constraint(equalTo: centerXAnchor),
+            playerHealthLabel.centerYAnchor.constraint(equalTo: playerHealthBar.centerYAnchor),
+            playerHealthLabel.centerXAnchor.constraint(equalTo: playerHealthBar.centerXAnchor),
+            playerHealthBar.heightAnchor.constraint(equalToConstant: 35),
+            playerHealthBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
             
             buttonsStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
             buttonsStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -123,11 +160,12 @@ final class BattleView: UIView {
     
     func configure(enemy: Character, player: Character, onAttack: @escaping () -> Void, onDefense: @escaping () -> Void) {
         enemyNameLabel.text = enemy.name
-        enemyHealthLabel.text = "\(enemy.health)"
+        enemyHealthLabel.text = "\(enemy.currentHealth)/\(enemy.totalHealth)"
         enemyShieldLabel.text = "\(enemy.shield)"
+        enemyImage.image = UIImage(named: enemy.image ?? "")
         
-        playerNameLabel.text = player.name
-        playerHealthLabel.text = "\(player.health)"
+//        playerNameLabel.text = player.name
+        playerHealthLabel.text = "\(player.currentHealth)/\(player.totalHealth)"
         playerShieldLabel.text = "\(player.shield)"
         
         setActionsHandlers(onAttack: onAttack, onDefense: onDefense)

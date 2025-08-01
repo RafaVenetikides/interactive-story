@@ -11,9 +11,9 @@ class BattleViewController: UIViewController {
     
     private let battleView = BattleView()
     
-    private var player = Character(name: "Player", health: 100, shield: 0, attackPower: 10)
+    private var player = Character(name: "Player", totalHealth: 100, currentHealth: 100, shield: 0, attackPower: 10)
     
-    private var enemy = Character(name: "Enemy", health: 10, shield: 0, attackPower: 5)
+    private var enemy = Character(name: "Talking Cricket", totalHealth: 20, currentHealth: 20, shield: 0, attackPower: 5, image: "cricket")
     
     var onBattleFinished: (() -> Void)?
     private var isPlayerTurn = true
@@ -35,16 +35,16 @@ class BattleViewController: UIViewController {
     }
     
     private func updateUI() {
-        battleView.updatePlayerHealth(player.health)
+        battleView.updatePlayerHealth(player.currentHealth)
         battleView.updatePlayerShield(player.shield)
 
-        battleView.updateEnemyHealth(enemy.health)
+        battleView.updateEnemyHealth(enemy.currentHealth)
         battleView.updateEnemyShield(enemy.shield)
     }
     
     private func handleAttack() {
         guard isPlayerTurn else { return }
-        enemy.health -= player.attackPower
+        enemy.currentHealth -= player.attackPower
         updateUI()
         isPlayerTurn = false
         
@@ -63,19 +63,24 @@ class BattleViewController: UIViewController {
     }
     
     private func takeEnemyTurn() {
-        let damageTaken = max(0, enemy.attackPower - player.shield)
-        player.health -= damageTaken
+        var damageTaken = enemy.attackPower
+        if player.shield > 0 {
+            let shieldDamage = damageTaken
+            damageTaken -= player.shield
+            player.shield -= shieldDamage
+        }
+        player.currentHealth -= max(0, damageTaken)
         player.shield = 0
         isPlayerTurn = true
         updateUI()
         
-        if player.health <= 0 {
+        if player.currentHealth <= 0 {
             showGameOver()
         }
     }
     
     private func checkBattleState() {
-        if enemy.health <= 0 {
+        if enemy.currentHealth <= 0 {
             goToDialogue()
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

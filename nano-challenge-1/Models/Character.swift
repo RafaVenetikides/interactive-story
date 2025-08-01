@@ -7,7 +7,9 @@
 
 struct Character {
     var name: String
-    var health: Int
+    var totalHealth: Int
+    var currentHealth: Int
     var shield: Int
     var attackPower: Int
+    var image: String?
 }
