@@ -319,23 +319,36 @@ final class BattleView: UIView {
         playerHealthLabel.text = "\(player.currentHealth)/\(player.totalHealth)"
         playerShieldLabel.text = "\(player.shield)"
         
+        enemyHealthBar.setProgress(1, animated: false)
+        playerHealthBar.setProgress(1, animated: false)
+        
         setActionsHandlers(onAttack: onAttack, onDefense: onDefense)
     }
     
-    func updatePlayerHealth(_ health: Int) {
-        playerHealthLabel.text = "\(health)"
+    func updatePlayerHealth(currentHealth: Int, totalHealth: Int) {
+        playerHealthLabel.text = "\(currentHealth)/\(totalHealth)"
     }
     
     func updatePlayerShield(_ shield: Int) {
         playerShieldLabel.text = "\(shield)"
     }
     
-    func updateEnemyHealth(_ health: Int) {
-        enemyHealthLabel.text = "\(health)"
+    func updateEnemyHealth(currentHealth: Int, totalHealth: Int) {
+        enemyHealthLabel.text = "\(currentHealth)/\(totalHealth)"
     }
     
     func updateEnemyShield(_ shield: Int) {
         enemyShieldLabel.text = "\(shield)"
+    }
+    
+    func updatePlayerHealthBar(current: Int, total: Int) {
+        let progress = Float(current) / Float(total)
+        playerHealthBar.setProgress(progress, animated: true)
+    }
+    
+    func updateEnemyHealthBar(current: Int, total: Int) {
+        let progress = Float(current) / Float(total)
+        enemyHealthBar.setProgress(progress, animated: true)
     }
     
     func setActionsHandlers(onAttack: @escaping () -> Void, onDefense: @escaping () -> Void) {

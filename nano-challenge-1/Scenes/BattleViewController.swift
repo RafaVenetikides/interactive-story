@@ -35,11 +35,13 @@ class BattleViewController: UIViewController {
     }
     
     private func updateUI() {
-        battleView.updatePlayerHealth(player.currentHealth)
+        battleView.updatePlayerHealth(currentHealth: player.currentHealth, totalHealth: player.totalHealth)
         battleView.updatePlayerShield(player.shield)
+        battleView.updatePlayerHealthBar(current: player.currentHealth, total: player.totalHealth)
 
-        battleView.updateEnemyHealth(enemy.currentHealth)
+        battleView.updateEnemyHealth(currentHealth: enemy.currentHealth, totalHealth: enemy.totalHealth)
         battleView.updateEnemyShield(enemy.shield)
+        battleView.updateEnemyHealthBar(current: enemy.currentHealth, total: enemy.totalHealth)
     }
     
     private func handleAttack() {
