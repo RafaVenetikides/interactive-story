@@ -98,11 +98,6 @@ class BattleViewController: UIViewController {
     }
     
     private func goToDialogue() {
-        if let onBattleFinished = onBattleFinished {
-            onBattleFinished()
-        } else {
-            let dialogueVC = DialogueViewController(startNodeId: "start")
-            navigationController?.pushViewController(dialogueVC, animated: false)
-        }
+        onBattleFinished?()
     }
 }

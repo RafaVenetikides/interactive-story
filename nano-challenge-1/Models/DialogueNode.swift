@@ -9,7 +9,7 @@ import Foundation
 
 struct DialogueOption {
     let text: String
-    let nextNodeId: String?
+    let nextEventId: String?
 }
 
 struct DialogueNode {

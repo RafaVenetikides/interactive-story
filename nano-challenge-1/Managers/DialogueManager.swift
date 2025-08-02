@@ -21,7 +21,7 @@ class DialogueManager {
     }
     
     func selectOption(_ options: DialogueOption) {
-        if let nextId = options.nextNodeId {
+        if let nextId = options.nextEventId {
             currentNodeId = nextId
         }
     }

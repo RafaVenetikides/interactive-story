@@ -1,5 +1,5 @@
 //
-//  DialogueRepository.swift
+//  EventRepository.swift
 //  nano-challenge-1
 //
 //  Created by Rafael Venetikides on 30/07/25.
@@ -13,8 +13,8 @@ struct DialogueRepository {
                 characterName: "character 1",
                 text: "super dialogo",
                 options: [
-                    DialogueOption(text: "resposta 1", nextNodeId: "resposta1"),
-                    DialogueOption(text: "resposta 2", nextNodeId: "resposta2")
+                    DialogueOption(text: "resposta 1", nextEventId: "resposta1"),
+                    DialogueOption(text: "resposta 2", nextEventId: "resposta2")
                 ]
             ),
             "resposta1": DialogueNode(
@@ -22,16 +22,16 @@ struct DialogueRepository {
                 characterName: "character 2",
                 text: "super dialogo 2",
                 options: [
-                    DialogueOption(text: "Final 1", nextNodeId: "final1"),
-                    DialogueOption(text: "resposta 3", nextNodeId: "resposta3")]
+                    DialogueOption(text: "Final 1", nextEventId: "final1"),
+                    DialogueOption(text: "resposta 3", nextEventId: "resposta3")]
             ),
             "resposta2": DialogueNode(
                 id: "resposta2",
                 characterName: "character 3",
                 text: "super dialogo 3",
                 options: [
-                    DialogueOption(text: "resposta 3", nextNodeId: "resposta3"),
-                    DialogueOption(text: "resposta 4", nextNodeId: "resposta4")
+                    DialogueOption(text: "resposta 3", nextEventId: "resposta3"),
+                    DialogueOption(text: "resposta 4", nextEventId: "resposta4")
                 ]
             ),
             "resposta3": DialogueNode(

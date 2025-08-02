@@ -83,7 +83,7 @@ class DialogueView: UIView {
             let button = UIButton(type: .system)
             button.setTitle("Fim", for: .normal)
             button.addAction(UIAction(handler: {_ in
-            handler(DialogueOption(text: "sla", nextNodeId: "start"))}), for: .touchUpInside)
+            handler(DialogueOption(text: "sla", nextEventId: "start"))}), for: .touchUpInside)
             buttonsStackView.addArrangedSubview(button)
         }
     }
