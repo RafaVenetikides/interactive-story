@@ -8,26 +8,46 @@
 import UIKit
 
 class DialogueView: UIView {
-    private let characterLabel: UILabel = {
+    private let characterNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .bold)
+        label.font = UIFont(name: "ComicNeue-Bold", size: 20)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let characterNameField: UIView = {
+       let view = UIView()
+        view.backgroundColor = .fieldBackground
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private let dialogueLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 17)
+        label.font = UIFont(name: "ComicNeue-Regular", size: 16)
         label.numberOfLines = 0
-        label.textAlignment = .center
+        label.textAlignment = .justified
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    private let dialogueField: UIView = {
+        let view = UIView()
+        view.backgroundColor = .fieldBackground
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let buttonsStackView: UIStackView = {
         let buttonsStackView = UIStackView()
-        buttonsStackView.axis = .horizontal
+        buttonsStackView.axis = .vertical
         buttonsStackView.distribution = .fillEqually
         buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
         return buttonsStackView
@@ -44,27 +64,34 @@ class DialogueView: UIView {
     }
     
     private func setupLayout() {
-        addSubview(characterLabel)
-        addSubview(dialogueLabel)
+        addSubview(characterNameField)
+        addSubview(dialogueField)
         addSubview(buttonsStackView)
+        characterNameField.addSubview(characterNameLabel)
+        dialogueField.addSubview(dialogueLabel)
         
         NSLayoutConstraint.activate([
-            characterLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
-            characterLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            characterLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            characterNameField.bottomAnchor.constraint(equalTo: dialogueField.topAnchor, constant: -20),
+            characterNameField.centerXAnchor.constraint(equalTo: centerXAnchor),
+            characterNameField.heightAnchor.constraint(equalToConstant: 40),
+            characterNameField.widthAnchor.constraint(equalTo: characterNameLabel.widthAnchor, constant: 40),
+            characterNameLabel.centerXAnchor.constraint(equalTo: characterNameField.centerXAnchor),
+            characterNameLabel.centerYAnchor.constraint(equalTo: characterNameField.centerYAnchor),
             
-            dialogueLabel.topAnchor.constraint(equalTo: characterLabel.bottomAnchor, constant: 20),
-            dialogueLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            dialogueLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            dialogueField.centerYAnchor.constraint(equalTo: centerYAnchor),
+            dialogueField.centerXAnchor.constraint(equalTo: centerXAnchor),
+            dialogueField.widthAnchor.constraint(equalToConstant: 436),
+            dialogueField.heightAnchor.constraint(equalToConstant: 190),
+            dialogueLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            dialogueLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            buttonsStackView.topAnchor.constraint(equalTo: dialogueLabel.bottomAnchor, constant: 40),
-            buttonsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            buttonsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            buttonsStackView.topAnchor.constraint(equalTo: dialogueField.bottomAnchor, constant: 40),
+            buttonsStackView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
     
     func configure(characterName: String, dialogueText: String) {
-        characterLabel.text = characterName
+        characterNameLabel.text = characterName
         dialogueLabel.text = dialogueText
     }
     

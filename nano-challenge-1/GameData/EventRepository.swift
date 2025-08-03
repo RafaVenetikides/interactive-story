@@ -13,7 +13,7 @@ struct EventRepository {
                 type: .dialogue(
                     DialogueNode(
                         id: "start",
-                        characterName: "character 1",
+                        characterName: "Talking Cricket",
                         text: "super dialogo",
                         options: [
                             DialogueOption(text: "resposta 1", nextEventId: "battle1"),
