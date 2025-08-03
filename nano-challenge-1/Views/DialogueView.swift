@@ -8,6 +8,22 @@
 import UIKit
 
 class DialogueView: UIView {
+    
+    private let characterLeftImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let characterRightImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.transform = CGAffineTransform(scaleX: -1, y: 1)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     private let characterNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "ComicNeue-Bold", size: 20)
@@ -49,6 +65,7 @@ class DialogueView: UIView {
         let buttonsStackView = UIStackView()
         buttonsStackView.axis = .vertical
         buttonsStackView.distribution = .fillEqually
+        buttonsStackView.spacing = 20
         buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
         return buttonsStackView
     }()
@@ -56,7 +73,7 @@ class DialogueView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-        backgroundColor = .white
+        backgroundColor = .background
     }
     
     required init?(coder: NSCoder) {
@@ -64,6 +81,8 @@ class DialogueView: UIView {
     }
     
     private func setupLayout() {
+        addSubview(characterLeftImageView)
+        addSubview(characterRightImageView)
         addSubview(characterNameField)
         addSubview(dialogueField)
         addSubview(buttonsStackView)
@@ -71,28 +90,38 @@ class DialogueView: UIView {
         dialogueField.addSubview(dialogueLabel)
         
         NSLayoutConstraint.activate([
-            characterNameField.bottomAnchor.constraint(equalTo: dialogueField.topAnchor, constant: -20),
+            characterLeftImageView.bottomAnchor.constraint(equalTo: dialogueField.topAnchor),
+            characterLeftImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            
+            characterRightImageView.bottomAnchor.constraint(equalTo: dialogueField.topAnchor),
+            characterRightImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            characterRightImageView.leadingAnchor.constraint(equalTo: centerXAnchor, constant: 5),
+            
+            characterNameField.bottomAnchor.constraint(equalTo: dialogueField.topAnchor, constant: -5),
             characterNameField.centerXAnchor.constraint(equalTo: centerXAnchor),
             characterNameField.heightAnchor.constraint(equalToConstant: 40),
             characterNameField.widthAnchor.constraint(equalTo: characterNameLabel.widthAnchor, constant: 40),
             characterNameLabel.centerXAnchor.constraint(equalTo: characterNameField.centerXAnchor),
             characterNameLabel.centerYAnchor.constraint(equalTo: characterNameField.centerYAnchor),
             
-            dialogueField.centerYAnchor.constraint(equalTo: centerYAnchor),
+            dialogueField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 70),
             dialogueField.centerXAnchor.constraint(equalTo: centerXAnchor),
             dialogueField.widthAnchor.constraint(equalToConstant: 436),
             dialogueField.heightAnchor.constraint(equalToConstant: 190),
-            dialogueLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            dialogueLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            dialogueLabel.centerYAnchor.constraint(equalTo: dialogueField.centerYAnchor),
+            dialogueLabel.centerXAnchor.constraint(equalTo: dialogueField.centerXAnchor),
             
             buttonsStackView.topAnchor.constraint(equalTo: dialogueField.bottomAnchor, constant: 40),
-            buttonsStackView.centerXAnchor.constraint(equalTo: centerXAnchor)
+            buttonsStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            buttonsStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8)
         ])
     }
     
     func configure(characterName: String, dialogueText: String) {
         characterNameLabel.text = characterName
         dialogueLabel.text = dialogueText
+        characterLeftImageView.image = UIImage(named: "pinocchiospeak")
+        characterRightImageView.image = UIImage(named: "cricketspeak")
     }
     
     func setOptions(_ options: [DialogueOption], handler: @escaping (DialogueOption) -> Void) {
@@ -101,6 +130,15 @@ class DialogueView: UIView {
         for option in options {
             let button = UIButton(type: .system)
             button.setTitle(option.text, for: .normal)
+            
+            button.backgroundColor = .fieldBackground
+            button.setTitleColor(.black, for: .normal)
+            button.titleLabel?.font = UIFont(name: "ComicNeue-Bold", size: 18)
+            button.layer.cornerRadius = 8
+            button.layer.borderWidth = 1
+            button.layer.borderColor = UIColor.black.cgColor
+            button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+            
             button.addAction(UIAction(handler: {_ in
                 handler(option)}), for: .touchUpInside)
             buttonsStackView.addArrangedSubview(button)
