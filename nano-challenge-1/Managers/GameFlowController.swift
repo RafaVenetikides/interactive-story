@@ -17,28 +17,32 @@ class GameFlowController {
     }
     
     func startGame() {
-        showCurrrentEvent()
+        showCurrentEvent()
     }
     
-    func showCurrrentEvent() {
+    func showCurrentEvent() {
         guard let event = eventManager.getCurrentEvent() else { return }
         
         switch event.type {
         case .dialogue(let node):
             let vc = DialogueViewController(dialogueNode: node)
             vc.onOptionSelected = { [weak self] selectedOption in
-                guard let nextId = selectedOption.nextEventId else { return }
-                self?.eventManager.goToEventId(nextId)
-                self?.showCurrrentEvent()
+                guard let nextId = selectedOption.nextEventId else {
+                    return }
+                
+                guard let self else { return }
+                self.eventManager.goToEventId(nextId)
+                self.showCurrentEvent()
             }
-        case .battle:
-            let vc = BattleViewController()
+            self.navigationController.pushViewController(vc, animated: false)
+        case .battle(let character):
+            let vc = BattleViewController(enemy: character)
             vc.onBattleFinished = { [weak self] in
                 self?.eventManager.goToNextEvent()
-                self?.showCurrrentEvent()
+                self?.showCurrentEvent()
             }
             
-            navigationController.pushViewController(vc, animated: false)
+            self.navigationController.pushViewController(vc, animated: false)
         }
     }
 }

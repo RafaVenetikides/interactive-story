@@ -13,5 +13,5 @@ struct GameEvent {
 
 enum EventType {
     case dialogue(DialogueNode)
-    case battle
+    case battle(Character)
 }

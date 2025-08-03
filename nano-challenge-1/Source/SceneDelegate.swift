@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var gameFlowController: GameFlowController?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -19,7 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let navigationController = UINavigationController(rootViewController: BattleViewController())
+        let navigationController = UINavigationController()
+        let eventManager = EventManager(startEventId: "start", events: EventRepository.allEvents())
+        self.gameFlowController = GameFlowController(navigationController: navigationController, eventManager: eventManager)
+        
+        gameFlowController?.startGame()
         
         window.overrideUserInterfaceStyle = .light
         window.rootViewController = navigationController

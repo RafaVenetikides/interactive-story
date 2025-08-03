@@ -13,7 +13,18 @@ class BattleViewController: UIViewController {
     
     private var player = Character(name: "Player", totalHealth: 100, currentHealth: 100, shield: 0, attackPower: 10)
     
-    private var enemy = Character(name: "Talking Cricket", totalHealth: 20, currentHealth: 20, shield: 0, attackPower: 5, image: "cricket")
+//    private var enemy = Character(name: "Talking Cricket", totalHealth: 20, currentHealth: 20, shield: 0, attackPower: 5, image: "cricket")
+    
+    private var enemy: Character
+    
+    init(enemy: Character) {
+        self.enemy = enemy
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     var onBattleFinished: (() -> Void)?
     private var isPlayerTurn = true
