@@ -35,8 +35,13 @@ class GameFlowController {
             self.navigationController.pushViewController(vc, animated: false)
         case .battle(let character):
             let vc = BattleViewController(enemy: character)
-            vc.onBattleFinished = { [weak self] in
-                self?.eventManager.goToNextEvent()
+            vc.onBattleFinished = { [weak self] didWin in
+                if didWin {
+                    self?.eventManager.goToNextEvent()
+                } else {
+                    self?.eventManager.reset()
+                    self?.navigationController.popViewController(animated: false)
+                }
                 self?.showCurrentEvent()
             }
             

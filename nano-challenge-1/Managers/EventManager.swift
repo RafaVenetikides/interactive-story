@@ -29,6 +29,6 @@ class EventManager {
     }
     
     func reset() {
-        currentEventId = events.keys.first!
+        currentEventId = "start"
     }
 }

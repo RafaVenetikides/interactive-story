@@ -24,7 +24,7 @@ class BattleViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var onBattleFinished: (() -> Void)?
+    var onBattleFinished: ((Bool) -> Void)?
     private var isPlayerTurn = true
     
     override func loadView() {
@@ -108,12 +108,12 @@ class BattleViewController: UIViewController {
     private func showGameOver() {
         let alert = UIAlertController(title: "Game Over", message: "Você perdeu!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Voltar ao início", style: .default, handler: {_ in
-            self.onBattleFinished?()
+            self.onBattleFinished?(false)
         }))
         present(alert, animated: true)
     }
     
     private func goToDialogue() {
-        onBattleFinished?()
+        onBattleFinished?(true)
     }
 }
