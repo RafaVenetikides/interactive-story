@@ -27,4 +27,8 @@ class EventManager {
     func goToEventId(_ eventId: String) {
         currentEventId = eventId
     }
+    
+    func reset() {
+        currentEventId = events.keys.first!
+    }
 }

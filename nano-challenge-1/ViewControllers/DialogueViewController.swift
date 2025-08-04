@@ -35,7 +35,7 @@ class DialogueViewController: UIViewController {
     
     private func renderCurrentNode() {
         
-        dialogView.configure(characterName: dialogueNode.characterName, dialogueText: dialogueNode.text)
+        dialogView.configure(characterName: dialogueNode.characterName, dialogueText: dialogueNode.text, leftCharacterImage: dialogueNode.leftCharacterImage, rightCharacterImage: dialogueNode.rightCharacterImage)
         
         dialogView.setOptions(dialogueNode.options, handler: { [weak self] selectedOption in
             self?.handleOption(selectedOption)})

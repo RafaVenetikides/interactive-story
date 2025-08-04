@@ -15,6 +15,8 @@ struct DialogueOption {
 struct DialogueNode {
     let id: String
     let characterName: String
+    let leftCharacterImage: String
+    let rightCharacterImage: String
     let text: String
     let options: [DialogueOption]
 }

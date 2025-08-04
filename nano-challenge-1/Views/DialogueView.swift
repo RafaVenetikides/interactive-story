@@ -18,7 +18,7 @@ class DialogueView: UIView {
     
     private let characterRightImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.transform = CGAffineTransform(scaleX: -1, y: 1)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -34,7 +34,7 @@ class DialogueView: UIView {
     
     private let characterNameField: UIView = {
        let view = UIView()
-        view.backgroundColor = .fieldBackground
+        view.backgroundColor = .fieldBackground.withAlphaComponent(0.8)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.black.cgColor
         view.layer.cornerRadius = 5
@@ -91,11 +91,10 @@ class DialogueView: UIView {
         
         NSLayoutConstraint.activate([
             characterLeftImageView.bottomAnchor.constraint(equalTo: dialogueField.topAnchor),
-            characterLeftImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            characterLeftImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -35),
             
-            characterRightImageView.bottomAnchor.constraint(equalTo: dialogueField.topAnchor),
+            characterRightImageView.bottomAnchor.constraint(equalTo: dialogueField.topAnchor, constant: 3),
             characterRightImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            characterRightImageView.leadingAnchor.constraint(equalTo: centerXAnchor, constant: 5),
             
             characterNameField.bottomAnchor.constraint(equalTo: dialogueField.topAnchor, constant: -5),
             characterNameField.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -118,11 +117,11 @@ class DialogueView: UIView {
         ])
     }
     
-    func configure(characterName: String, dialogueText: String) {
+    func configure(characterName: String, dialogueText: String, leftCharacterImage: String, rightCharacterImage: String) {
         characterNameLabel.text = characterName
         dialogueLabel.text = dialogueText
-        characterLeftImageView.image = UIImage(named: "pinocchiospeak")
-        characterRightImageView.image = UIImage(named: "cricketspeak")
+        characterLeftImageView.image = UIImage(named: leftCharacterImage)
+        characterRightImageView.image = UIImage(named: rightCharacterImage)
     }
     
     func setOptions(_ options: [DialogueOption], handler: @escaping (DialogueOption) -> Void) {
@@ -149,7 +148,7 @@ class DialogueView: UIView {
         
         if options.isEmpty {
             let button = UIButton(type: .system)
-            button.setTitle("Fim", for: .normal)
+            button.setTitle("Game Over", for: .normal)
             
             button.backgroundColor = .fieldBackground
             button.setTitleColor(.black, for: .normal)

@@ -107,7 +107,9 @@ class BattleViewController: UIViewController {
     
     private func showGameOver() {
         let alert = UIAlertController(title: "Game Over", message: "Você perdeu!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: "Voltar ao início", style: .default, handler: {_ in
+            self.onBattleFinished?()
+        }))
         present(alert, animated: true)
     }
     
