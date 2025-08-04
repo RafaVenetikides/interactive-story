@@ -13,8 +13,6 @@ class BattleViewController: UIViewController {
     
     private var player = Character(name: "Player", totalHealth: 100, currentHealth: 100, shield: 0, attackPower: 10)
     
-//    private var enemy = Character(name: "Talking Cricket", totalHealth: 20, currentHealth: 20, shield: 0, attackPower: 5, image: "cricket")
-    
     private var enemy: Character
     
     init(enemy: Character) {
@@ -96,7 +94,12 @@ class BattleViewController: UIViewController {
         if enemy.currentHealth <= 0 {
             goToDialogue()
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+//                self?.takeEnemyTurn()
+//            }
+            
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(1))
                 self.takeEnemyTurn()
             }
         }

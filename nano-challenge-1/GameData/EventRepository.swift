@@ -14,10 +14,9 @@ struct EventRepository {
                     DialogueNode(
                         id: "start",
                         characterName: "Talking Cricket",
-                        text: "super dialogo",
+                        text: "Pinoccio, você fugiu de casa e causou confusão pela cidade, com isso o Gepeto foi preso. Crianças desobedientes não se dão bem no mundo, no futuro você irá se arrepender",
                         options: [
-                            DialogueOption(text: "resposta 1", nextEventId: "battle1"),
-                            DialogueOption(text: "resposta 2", nextEventId: "resposta2")
+                            DialogueOption(text: "Saia daqui, não quero ouvir suas lições de moral", nextEventId: "battle1"),
                         ]
                     )
                 ),

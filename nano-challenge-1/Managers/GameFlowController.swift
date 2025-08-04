@@ -27,10 +27,8 @@ class GameFlowController {
         case .dialogue(let node):
             let vc = DialogueViewController(dialogueNode: node)
             vc.onOptionSelected = { [weak self] selectedOption in
-                guard let nextId = selectedOption.nextEventId else {
-                    return }
+                guard let nextId = selectedOption.nextEventId, let self else { return }
                 
-                guard let self else { return }
                 self.eventManager.goToEventId(nextId)
                 self.showCurrentEvent()
             }

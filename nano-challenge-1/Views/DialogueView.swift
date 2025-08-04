@@ -110,6 +110,7 @@ class DialogueView: UIView {
             dialogueField.heightAnchor.constraint(equalToConstant: 190),
             dialogueLabel.centerYAnchor.constraint(equalTo: dialogueField.centerYAnchor),
             dialogueLabel.centerXAnchor.constraint(equalTo: dialogueField.centerXAnchor),
+            dialogueLabel.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.9),
             
             buttonsStackView.topAnchor.constraint(equalTo: dialogueField.bottomAnchor, constant: 40),
             buttonsStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -138,6 +139,8 @@ class DialogueView: UIView {
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.black.cgColor
             button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+            button.titleLabel?.numberOfLines = 0
+            button.titleLabel?.textAlignment = .center
             
             button.addAction(UIAction(handler: {_ in
                 handler(option)}), for: .touchUpInside)
@@ -147,6 +150,16 @@ class DialogueView: UIView {
         if options.isEmpty {
             let button = UIButton(type: .system)
             button.setTitle("Fim", for: .normal)
+            
+            button.backgroundColor = .fieldBackground
+            button.setTitleColor(.black, for: .normal)
+            button.titleLabel?.font = UIFont(name: "ComicNeue-Bold", size: 18)
+            button.layer.cornerRadius = 8
+            button.layer.borderWidth = 1
+            button.layer.borderColor = UIColor.black.cgColor
+            button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+            button.titleLabel?.numberOfLines = 0
+            
             button.addAction(UIAction(handler: {_ in
             handler(DialogueOption(text: "sla", nextEventId: "start"))}), for: .touchUpInside)
             buttonsStackView.addArrangedSubview(button)

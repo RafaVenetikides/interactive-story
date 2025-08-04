@@ -94,7 +94,7 @@ final class BattleView: UIView {
         return image
     }()
     
-    private lazy var enemyStackInfo: UIStackView = {
+    private lazy var enemyInfoStack: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [enemyImage, enemyNameLabel, enemyHealthField, enemyShieldField])
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -240,8 +240,7 @@ final class BattleView: UIView {
     }
     
     private func setupLayout() {
-        backgroundColor = .white
-        addSubview(enemyStackInfo)
+        addSubview(enemyInfoStack)
         addSubview(playerStackInfo)
         addSubview(buttonsStackView)
         
@@ -258,8 +257,8 @@ final class BattleView: UIView {
         playerShieldField.addSubview(playerShieldStack)
         
         NSLayoutConstraint.activate([
-            enemyStackInfo.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            enemyStackInfo.centerXAnchor.constraint(equalTo: centerXAnchor),
+            enemyInfoStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            enemyInfoStack.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             enemyHealthLabel.centerYAnchor.constraint(equalTo: enemyHealthBar.centerYAnchor),
             enemyHealthLabel.centerXAnchor.constraint(equalTo: enemyHealthBar.centerXAnchor),
